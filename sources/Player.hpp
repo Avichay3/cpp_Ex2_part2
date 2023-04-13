@@ -1,27 +1,64 @@
+#pragma once
+
+#include <iostream>
 #include <string>
-using namespace std;
+#include <vector>
+#include "card.hpp"
 
-namespace ariel{
-    class Player{
+namespace ariel
+{
+    class Player
+    {
     private:
-        string name;
+        std::string name;
+        std::vector<Card> hand;
+        int takenCards;
+        bool inGame;
 
-
-  
-        int cards_left, won_cards;
-        bool is_playing;
     public:
-        Player();
-        Player(string name);
-        int stacksize();
-        int cardesTaken();
-        string getName();
-        void setName(string new_str);
-        int getCardsLeft();
-        void setCardsLeft(int new_cards_left);
-        int getWonCards();
-        void setWonCards( int new_won_cards);
-        bool IsPlaying();
-        void setIsPlaying(bool new_playing_status);
+        Player(std::string name = "Default Player") : name(name), takenCards(0), inGame(false) {} //constructor
+
+        std::string getName() const { return name; } //returns the name of the player without modify the object state
+
+        bool isInGame() const { return inGame; }
+
+        void setInGame(bool status) { inGame = status; }
+
+        int stacksize() const { return hand.size(); }
+
+        int cardsTaken() const { return takenCards; } //returns the number of cards taken by the player
+
+        const Card& getCard() const { return hand.back(); }
+
+        void addCard(Card& card);
+
+        void removeCard() { hand.pop_back(); }
+
+        bool hasCard(Card card) const;
+
+        std::string toString() const {
+            return "Player " + name + " has " + std::to_string(stacksize()) + " cards in hand and " + std::to_string(cardsTaken()) + " cards taken.";
+        }
     };
+
+    void Player::addCard(Card& card)
+    {
+        if (hand.size() == 26) {
+            throw std::logic_error("Player has maximum number of cards (26)");
+        }
+        if (hasCard(card)) {
+            throw std::invalid_argument("Player already has the given card");
+        }
+        hand.push_back(card);
+    }
+
+    bool Player::hasCard(Card card) const
+    {
+        for (const auto& c : hand) {
+            if (c == card) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

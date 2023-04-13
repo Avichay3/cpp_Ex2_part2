@@ -1,67 +1,43 @@
-#include "player.hpp"
-#include <string>
-using namespace ariel;
+#include "Player.hpp"
+#include <stdexcept>
 
-Player::Player(){ //constructor
+namespace ariel
+{
+    /* Constructor implementation */
+    Player::Player(string name)
+    {
+        this->name = name;
+        this->hand = vector<Card>();
+        this->takenCards = 0;
+        this->inGame = false;
+    }
 
-  
-}
+    /* AddCard implementation */
+    void Player::addCard(Card& card)
+    {
+        if (this->stacksize() >= 26)
+        {
+            throw logic_error("Player already has the maximum number of cards.");
+        }
 
-Player::Player(string str){ //2nd constrctor
+        if (hasCard(card))
+        {
+            throw invalid_argument("Player already has the given card.");
+        }
 
-}
+        this->hand.push_back(card);
+    }
 
-
-int Player::stacksize(){
-
-    return 0;
-}
-
-
-int Player::cardesTaken(){
-    return 0;
-}
-
-
-string Player::getName(){
-    return this->name;
-}
-
-
-void Player::setName(string new_name){
-
-}
-
-
-int Player::getCardsLeft(){
-
-    return 0;
-}
-
-
-void Player::setCardsLeft(int new_cards_left){
-
-}
-
-
-int Player::getWonCards(){
-
-    return 0;
-}
-
-
-void Player::setWonCards( int new_won_cards){
-
-}
-
-
-bool Player::IsPlaying(){
-
-    return this->is_playing;
-}
-
-
-void Player::setIsPlaying(bool new_playing_status){
-
-    this->is_playing = new_playing_status;
+    /* HasCard implementation */
+    bool Player::hasCard(Card card) const
+    {
+        for (const Card& c : this->hand)
+        {
+            if (c == card)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }
