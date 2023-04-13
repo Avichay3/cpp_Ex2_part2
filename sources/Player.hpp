@@ -20,7 +20,7 @@ namespace ariel
 
         std::string getName() const { return name; } //returns the name of the player without modify the object state
 
-        bool isInGame() const { return inGame; }
+        bool isInTheGame() const { return inGame; } // if the player is in the game
 
         void setInGame(bool status) { inGame = status; }
 

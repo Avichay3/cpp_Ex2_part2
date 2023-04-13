@@ -17,11 +17,11 @@ namespace ariel
         unsigned int turn; // current turn for player, it is unsigned because a turn can be between 0-26
         unsigned int draws; // when both players play a card with the same value there is a draw.
         // this private member will keep truck of the number of draws in the game
-        unsigned int p1Wins; // keep truck for the number of wins for player 1
-        unsigned int p2Wins; // keep truck for the number of wins for player 2
+        unsigned int player1Wins; // keep truck for the number of wins for player 1
+        unsigned int player2Wins;//keep truck the number of wins for player 2
 
     public:
-        Game(Player& plr1, Player& plr2); //constructor with arguments the two players
+        Game(Player& player1, Player& player2); //constructor with arguments the two players
 
         void playTurn();
 
@@ -29,7 +29,7 @@ namespace ariel
             cout << lastTurnStats << endl;
         }
 
-        void printWiner() const; // function to print the name of the winner
+        void printWinner() const; // function to print the name of the winner
 
 
         void printStats(); // function that prints the statistics of the game
