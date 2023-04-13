@@ -1,43 +1,27 @@
 #include "Player.hpp"
 #include <stdexcept>
 
-namespace ariel
-{
-    /* Constructor implementation */
-    Player::Player(string name)
-    {
-        this->name = name;
-        this->hand = vector<Card>();
-        this->takenCards = 0;
-        this->inGame = false;
+namespace ariel {
+
+    Player::Player(string name): name(name), takenCards(0), inGame(false) {};
+
+    void Player::addCard(Card& card) {
+        if (stacksize() >= 26) {
+            throw std::runtime_error{"Player already has the maximum number of cards."};
+        }
+        if (hasCard(card)) {
+            throw std::runtime_error{"Player already has the given card."};
+        }
+        hand.push_back(card);
     }
 
-    /* AddCard implementation */
-    void Player::addCard(Card& card)
-    {
-        if (this->stacksize() >= 26)
-        {
-            throw logic_error("Player already has the maximum number of cards.");
-        }
-
-        if (hasCard(card))
-        {
-            throw invalid_argument("Player already has the given card.");
-        }
-
-        this->hand.push_back(card);
-    }
-
-    /* HasCard implementation */
-    bool Player::hasCard(Card card) const
-    {
-        for (const Card& c : this->hand)
-        {
-            if (c == card)
-            {
+    bool Player::hasCard(Card card) const {
+        for (const auto& c : hand) {
+            if (c == card) {
                 return true;
             }
         }
         return false;
     }
-}
+
+} // namespace ariel
