@@ -5,34 +5,24 @@ using namespace std;
 #include "Card.hpp"
 
 namespace ariel {
-    Card::Card(Value value, Suit suit): value(value), suit(suit) {}; // the constructor with initialization list
+    Card::Card(Value value, Suit suit) : value(value), suit(suit) {}
 
     string Card::toString() const {
-        string svalue, s_suit;
-        Suit suit = this->getSuit();
-        Value value = this->getValue();
+        string s_value, s_suit;
 
-        switch (value)
-        {
-            case Ace:
-                svalue = "Ace";
-                break;
-            case Jack:
-                svalue = "Jack";
-                break;
-            case Queen:
-                svalue = "Queen";
-                break;
-            case King:
-                svalue = "King";
-                break;
-            default:
-                svalue = to_string((int)value);
-                break;
+        if (value == Ace) {
+            s_value = "Ace";
+        } else if (value == Jack) {
+            s_value = "Jack";
+        } else if (value == Queen) {
+            s_value = "Queen";
+        } else if (value == King) {
+            s_value = "King";
+        } else {
+            s_value = to_string(static_cast<int>(value));
         }
 
-        switch (suit)
-        {
+        switch (suit) {
             case Clubs:
                 s_suit = "Clubs";
                 break;
@@ -47,16 +37,13 @@ namespace ariel {
                 break;
         }
 
-        return (svalue + " of " + s_suit);
+        return s_value + " of " + s_suit;
     }
 
-    bool Card::operator<(const Card &rhs) const {
-        if (this->value == Ace and rhs.value == Two)
+    bool Card::operator<(const Card &r) const {
+        if ((value == Ace && r.value == Two) || (value > Two && r.value == Ace)) {
             return true;
-
-        else if (this->value > Two and rhs.value == Ace)
-            return true;
-
-        return (this->value < rhs.value);
+        }
+        return value < r.value;
     }
 }
