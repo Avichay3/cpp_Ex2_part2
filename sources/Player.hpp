@@ -1,64 +1,64 @@
+
 #pragma once
 
 #include <iostream>
 #include <string>
 #include <vector>
-#include "card.hpp"
+#include "Card.hpp"
 
-namespace ariel
-{
-    class Player
-    {
-    private:
-        std::string name;
-        std::vector<Card> hand;
-        int takenCards;
-        bool inGame;
+using namespace std;
 
-    public:
-        Player(std::string name = "Default Player") : name(name), takenCards(0), inGame(false) {} //constructor
+namespace ariel{
+    class Player{
+        private: //does not need to write private, but for being clear
+            string name;
+            vector<Card> hand;
+            bool inGame;
+            int takenCards;
+            
+        public:
+            Player(string name = "Default Player"); //constructor
 
-        std::string getName() const { return name; } //returns the name of the player without modify the object state
-
-        bool isInTheGame() const { return inGame; } // if the player is in the game
-
-        void setInGame(bool status) { inGame = status; }
-
-        int stacksize() const { return hand.size(); }
-
-        int cardsTaken() const { return takenCards; } //returns the number of cards taken by the player
-
-        const Card& getCard() const { return hand.back(); }
-
-        void addCard(Card& card);
-
-        void removeCard() { hand.pop_back(); }
-
-        bool hasCard(Card card) const;
-
-        std::string toString() const {
-            return "Player " + name + " has " + std::to_string(stacksize()) + " cards in hand and " + std::to_string(cardsTaken()) + " cards taken.";
-        }
-    };
-
-    void Player::addCard(Card& card)
-    {
-        if (hand.size() == 26) {
-            throw std::logic_error("Player has maximum number of cards (26)");
-        }
-        if (hasCard(card)) {
-            throw std::invalid_argument("Player already has the given card");
-        }
-        hand.push_back(card);
-    }
-
-    bool Player::hasCard(Card card) const
-    {
-        for (const auto& c : hand) {
-            if (c == card) {
-                return true;
+            /*getters and setters*/
+  
+            int stacksize() const { //note The function is const and can be called on a const object.
+                return (int)this->hand.size(); 
             }
-        }
-        return false;
-    }
+
+            int cardesTaken() const { //note The function is const and can be called on a const object.
+                return this->takenCards; 
+            }
+
+            void addCardTaken() { this->takenCards++; } //inline function
+
+            const Card& getCard() const {  //note The function is const and can be called on a const object.
+                return this->hand.back();
+            }
+
+            string getName() const { //note The function is const and can be called on a const object.
+                return this->name; 
+            }
+
+            bool isInGame() const { //note The function is const and can be called on a const object.
+                return this->inGame; 
+            }
+
+
+            void setInGame(bool inOrOut) { this->inGame = inOrOut; } //inline function
+
+
+            void addCard(Card& card);
+
+            void removeCard() { this->hand.pop_back();} //inline function
+            
+            bool hasCard(Card card) const; //note The function is const and can be called on a const object.
+
+
+            /*return the string represntation of the object
+              note The function is const and can be called on a const object.
+            */
+            string toString() const { 
+                return "Player " + this->name + " has " + to_string(this->stacksize()) + " cards in hand and " + to_string(this->cardesTaken()) + " cards taken.";
+            }
+    };
 }

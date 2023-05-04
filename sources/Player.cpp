@@ -5,23 +5,19 @@ namespace ariel {
 
     Player::Player(string name): name(name), takenCards(0), inGame(false) {};
 
-    void Player::addCard(Card& card) {
-        if (stacksize() >= 26) {
-            throw std::runtime_error{"Player already has the maximum number of cards."};
-        }
-        if (hasCard(card)) {
-            throw std::runtime_error{"Player already has the given card."};
-        }
-        hand.push_back(card);
+    void Player::addCard(Card& card) { 
+        if (this->hasCard(card))
+            throw invalid_argument("Player have been already this card!");
+
+        this->hand.push_back(card); 
     }
 
     bool Player::hasCard(Card card) const {
-        for (const auto& c : hand) {
-            if (c == card) {
+        for (size_t i = 0; i < this->stacksize(); ++i){
+            Card t = this->hand.at(i);
+            if ((t.getSuit() == card.getSuit()) && (t.getValue() == card.getValue()))
                 return true;
-            }
         }
         return false;
     }
-
-} // namespace ariel
+} 
