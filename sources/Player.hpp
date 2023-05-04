@@ -39,7 +39,7 @@ namespace ariel{
                 return this->name; 
             }
 
-            bool isInGame() const { //note The function is const and can be called on a const object.
+            bool isInTheGame() const { //note The function is const and can be called on a const object.
                 return this->inGame; 
             }
 
