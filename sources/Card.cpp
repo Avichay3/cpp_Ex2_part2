@@ -5,9 +5,11 @@ using namespace std;
 #include "Card.hpp"
 
 namespace ariel {
-    Card::Card(Value value, Suit suit) : value(value), suit(suit) {}
+    Card::Card(Value value, Suit suit) : value(value), suit(suit) {} //constructor with initialization list
 
-    string Card::toString() const {
+    /*to string method, return the "value of suit", where the value is Ace/Jack/Queen/King
+      and the suit can be clubs/diamonds/hearts/spades*/
+    string Card::toString() const { 
         string s_value, s_suit;
 
         if (value == Ace) {
@@ -36,10 +38,10 @@ namespace ariel {
                 s_suit = "Spades";
                 break;
         }
-
         return s_value + " of " + s_suit;
     }
-
+    
+    /*comparing two cards objects*/
     bool Card::operator<(const Card &r) const {
         if ((value == Ace && r.value == Two) || (value > Two && r.value == Ace)) {
             return true;

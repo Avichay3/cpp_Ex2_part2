@@ -9,13 +9,15 @@
 
 
 namespace ariel{
+    /*the constructor take two references to player
+      also, it initialize various member variables of the Game class,*/
     Game::Game(Player &plr1, Player &plr2) : p1(plr1), p2(plr2), winner(nullptr), lastTurnStats(""), log(""), turn(0), draws(0), p1Wins(0), p2Wins(0) {
-        if (plr1.isInTheGame())
+        if (plr1.isInTheGame()){
             throw invalid_argument("Player 1 is already is in the game!");
-
-        if (plr2.isInTheGame())
+        }
+        if (plr2.isInTheGame()){
             throw invalid_argument("Player 2 is already is in the  game!");
-
+        }
         vector<Card> cards;
 
         /*creating the cards*/
@@ -38,12 +40,12 @@ namespace ariel{
         
         unsigned seed = (unsigned) time(NULL);
         auto rng = default_random_engine(seed);
-        shuffle(cards.begin(), cards.end(), rng);
+        shuffle(cards.begin(), cards.end(), rng); //shuffle the element of cards
 
         // Deal the cards
         while(!cards.empty()){
             int choise = ((int)cards.size()) % 2;
-            if (choise == 0){
+            if (choise == 0){ //means that the size of cards is even so the card added to p1
                 p1.addCard(cards.back());
             }
             else{
@@ -53,16 +55,16 @@ namespace ariel{
         }
 
         // set the players in to the game
-        this->p1.setInGame(true);
-        this->p2.setInGame(true);
+        this->p1.setInGame(true); // participate in the game
+        this->p2.setInGame(true); // participate in the game
     }
 
     void Game::playTurn(){
-        if (&p1 == &p2){
+        if (&p1 == &p2){ //check if p1 and p2 are two different players
             throw invalid_argument("Cannot play a game with the same player twice!");
         }    
         if (p1.isInTheGame() && p2.isInTheGame()){
-            if (++this->turn > 26){
+            if (++this->turn > 26){ // increment turn and sheck if its over 25, if yes throw error
                 throw logic_error("Game cannot continue with more than 26 turns!");
             }
             int drawsinthisturn = 0, OnTable = 2;
@@ -73,7 +75,7 @@ namespace ariel{
             p2.removeCard();
             this->lastTurnStats = "Turn " + to_string(this->turn) + ":\n" + p1.getName() + " played " + p1Card.toString() + " " + p2.getName() + " played " + p2Card.toString() + ". ";
 
-            while (p1Card == p2Card){
+            while (p1Card == p2Card){ //if the cards play by p1 and p2 are the same
                 this->draws++;
                 drawsinthisturn++;
                 this->lastTurnStats += "Draw!\n";
@@ -100,29 +102,22 @@ namespace ariel{
                 p2.removeCard();
 
                 OnTable += 4;
-
                 this->lastTurnStats += p1.getName() + " played " + p1Card.toString() + " " + p2.getName() + " played " + p2Card.toString() + ". ";
             }
 
-            if (p1Card < p2Card)
-            {
+            if (p1Card < p2Card){ //if the card of p1 is smaller that the card of p2
                 this->lastTurnStats += (p1.getName() + " won the round!" + "\n" + "Draws in this turn: " + to_string(drawsinthisturn)) + "\n\n";
                 this->p2Wins++;
-
-                while (OnTable > 0)
-                {
+                while (OnTable > 0){
                     p2.addCardTaken();
                     --OnTable;
                 }
             }
 
-            else if (p2Card < p1Card)
-            {
+            else if (p2Card < p1Card){
                 this->lastTurnStats += (p2.getName() + " won the round!" + "\n" + "Draws in this turn: " + to_string(drawsinthisturn)) + "\n\n";
                 this->p1Wins++;
-
-                while (OnTable > 0)
-                {
+                while (OnTable > 0){
                     p1.addCardTaken();
                     --OnTable;
                 }
@@ -132,8 +127,7 @@ namespace ariel{
                 this->lastTurnStats += "Draw!\n";
 
             // Checking if the game is over
-            if (!p1.stacksize() || !p2.stacksize())
-            {
+            if (!p1.stacksize() || !p2.stacksize()){
                 p1.setInGame(false);
                 p2.setInGame(false);
 
@@ -154,29 +148,26 @@ namespace ariel{
     }
 
     void Game::printWiner() const {
-        if (p1.isInTheGame() || p2.isInTheGame())
-            //throw logic_error("Game is not over yet!"); // We want to throw an exception here but the test cases don't allow it
+        if (p1.isInTheGame() || p2.isInTheGame()){
             return;
-
-        if (p1.cardesTaken() == p2.cardesTaken())
+        }
+        if (p1.cardesTaken() == p2.cardesTaken()){
             cout << "Draw!" << endl;
-
-        else
+        }
+        else{
             cout << "The winner is " << winner->getName() << "!" << endl;
+        }
     }
 
     void Game::printStats(){
         cout << "Player " << p1.getName() << " status:" << endl;
         cout << "Cards won: " << p1.cardesTaken() << endl;
         cout << "Cards left: " << p1.stacksize() << endl;
-        cout << "Win rate: " << ((float)this->p1Wins / this->turn) << "%" << endl
-            << endl;
-
+        cout << "Win rate: " << ((float)this->p1Wins / this->turn) << "%" << endl<< endl;
         cout << "Player " << p2.getName() << " status:" << endl;
         cout << "Cards won: " << p2.cardesTaken() << endl;
         cout << "Cards left: " << p2.stacksize() << endl;
         cout << "Win rate: " << ((float)this->p2Wins / this->turn) << "%" << endl<< endl;
-
         cout << "Total turns: " << this->turn << endl;
         cout << "Total draws: " << this->draws << endl;
         cout << "Draw rate: " << ((float)this->draws / this->turn) << "%" << endl;
