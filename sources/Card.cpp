@@ -5,10 +5,10 @@ using namespace std;
 #include "Card.hpp"
 
 namespace ariel {
-    Card::Card(Value value, Suit suit): value(value), suit(suit) {};
+    Card::Card(Value value, Suit suit): value(value), suit(suit) {}; // the constructor with initialization list
 
     string Card::toString() const {
-        string svalue, ssuit;
+        string svalue, s_suit;
         Suit suit = this->getSuit();
         Value value = this->getValue();
 
@@ -34,20 +34,20 @@ namespace ariel {
         switch (suit)
         {
             case Clubs:
-                ssuit = "Clubs";
+                s_suit = "Clubs";
                 break;
             case Diamonds:
-                ssuit = "Diamonds";
+                s_suit = "Diamonds";
                 break;
             case Hearts:
-                ssuit = "Hearts";
+                s_suit = "Hearts";
                 break;
             case Spades:
-                ssuit = "Spades";
+                s_suit = "Spades";
                 break;
         }
 
-        return (svalue + " of " + ssuit);
+        return (svalue + " of " + s_suit);
     }
 
     bool Card::operator<(const Card &rhs) const {
