@@ -1,129 +1,62 @@
-/*The next code defines a class named Card with a private data members val of type cardValue and shape of type Shape.
- * cardValue and Shape are both a two separate enums that define the possible values for a card (Ace, Two, Three, Four..) and the shape of the card (Leafs, Diamonds, Hearts, Clovers), respectively.
-
-The class has a default constructor that takes no arguments and sets the default value to Ace and Leafs.
-The class also has two public member functions, getCardValue() and getShape(), that return the value of the card and its shape, respectively.
-these functions are marked as const because they do not modify the state of the object.
-*/
-
+#include <iostream>
+#include <string>
+using namespace std;
 
 #include "Card.hpp"
 
-#include <iostream>
-#include <string>
-
-using namespace std;
-
 namespace ariel {
-    Card::Card(cardValue val1, Shape shape1) : val(val1), shape(shape1) {}
+    Card::Card(Value value, Suit suit): value(value), suit(suit) {};
 
-    cardValue Card::getCardValue() const {
-        return val;
-    }
+    string Card::toString() const {
+        string svalue, ssuit;
+        Suit suit = this->getSuit();
+        Value value = this->getValue();
 
-    Shape Card::getShape() const {
-        return shape;
-    }
-
-    string Card::cardValueToString(cardValue val) const {
-        string str_val;
-        switch (val) {
+        switch (value)
+        {
             case Ace:
-                str_val = "Ace";
-                break;
-            case Two:
-                str_val = "Two";
-                break;
-            case Three:
-                str_val = "Three";
-                break;
-            case Four:
-                str_val = "Four";
-                break;
-            case Five:
-                str_val = "Five";
-                break;
-            case Six:
-                str_val = "Six";
-                break;
-            case Seven:
-                str_val = "Seven";
-                break;
-            case Eight:
-                str_val = "Eight";
-                break;
-            case Nine:
-                str_val = "Nine";
-                break;
-            case Ten:
-                str_val = "Ten";
+                svalue = "Ace";
                 break;
             case Jack:
-                str_val = "Jack";
+                svalue = "Jack";
                 break;
             case Queen:
-                str_val = "Queen";
+                svalue = "Queen";
                 break;
             case King:
-                str_val = "King";
+                svalue = "King";
+                break;
+            default:
+                svalue = to_string((int)value);
                 break;
         }
-        return str_val;
-    }
 
-
-
-    /* the next function takes Shape value and convert it to string */
-    string Card::shapeToString(Shape shape) const {
-        string str_shape;
-        switch (shape) {
-            case Leafs:
-                str_shape = "Leafs";
+        switch (suit)
+        {
+            case Clubs:
+                ssuit = "Clubs";
                 break;
             case Diamonds:
-                str_shape = "Diamonds";
+                ssuit = "Diamonds";
                 break;
             case Hearts:
-                str_shape = "Hearts";
+                ssuit = "Hearts";
                 break;
-            case Clovers:
-                str_shape = "Clovers";
+            case Spades:
+                ssuit = "Spades";
                 break;
         }
-        return str_shape;
+
+        return (svalue + " of " + ssuit);
     }
 
-    /* A string representation for the card */
-    string Card::toString() const {
-        return cardValueToString(val) + " of " + shapeToString(shape);
+    bool Card::operator<(const Card &rhs) const {
+        if (this->value == Ace and rhs.value == Two)
+            return true;
+
+        else if (this->value > Two and rhs.value == Ace)
+            return true;
+
+        return (this->value < rhs.value);
     }
-
-
-    /* the next six functions are gonna compare two cards objects based on their values */
-
-
-    bool Card::operator<(const Card &other) const {
-        return (this->val < other.val);
-    }
-
-    bool Card::operator>(const Card &other) const {
-        return (this->val > other.val);
-    }
-
-    bool Card::operator==(const Card &other) const {
-        return (this->val == other.val);
-    }
-
-    bool Card::operator!=(const Card &other) const {
-        return (this->val != other.val);
-    }
-
-    bool Card::operator<=(const Card &other) const {
-        return (this->val <= other.val);
-    }
-
-    bool Card::operator>=(const Card &other) const {
-        return (this->val >= other.val);
-    }
-
 }

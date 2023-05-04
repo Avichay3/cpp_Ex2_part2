@@ -62,17 +62,15 @@ namespace ariel{
             throw invalid_argument("Cannot play a game with the same player twice!");
         }    
         if (p1.isInTheGame() && p2.isInTheGame()){
-            if (++this->turn > 26)
+            if (++this->turn > 26){
                 throw logic_error("Game cannot continue with more than 26 turns!");
-
+            }
             int drawsinthisturn = 0, OnTable = 2;
             this->lastTurnStats = "";
-
             Card p1Card = p1.getCard();
             Card p2Card = p2.getCard();
             p1.removeCard();
             p2.removeCard();
-
             this->lastTurnStats = "Turn " + to_string(this->turn) + ":\n" + p1.getName() + " played " + p1Card.toString() + " " + p2.getName() + " played " + p2Card.toString() + ". ";
 
             while (p1Card == p2Card){
@@ -150,8 +148,7 @@ namespace ariel{
             throw logic_error("Game is over!");
     }
 
-    void Game::playAll()
-    {
+    void Game::playAll(){
         while (p1.isInTheGame() && p2.isInTheGame() && this->turn < 26)
             playTurn();
     }
@@ -168,8 +165,7 @@ namespace ariel{
             cout << "The winner is " << winner->getName() << "!" << endl;
     }
 
-    void Game::printStats()
-    {
+    void Game::printStats(){
         cout << "Player " << p1.getName() << " status:" << endl;
         cout << "Cards won: " << p1.cardesTaken() << endl;
         cout << "Cards left: " << p1.stacksize() << endl;
@@ -179,17 +175,17 @@ namespace ariel{
         cout << "Player " << p2.getName() << " status:" << endl;
         cout << "Cards won: " << p2.cardesTaken() << endl;
         cout << "Cards left: " << p2.stacksize() << endl;
-        cout << "Win rate: " << ((float)this->p2Wins / this->turn) << "%" << endl
-            << endl;
+        cout << "Win rate: " << ((float)this->p2Wins / this->turn) << "%" << endl<< endl;
 
         cout << "Total turns: " << this->turn << endl;
         cout << "Total draws: " << this->draws << endl;
         cout << "Draw rate: " << ((float)this->draws / this->turn) << "%" << endl;
 
-        if (this->winner != nullptr)
+        if (this->winner != nullptr){
             cout << "Winning player: " << this->winner->getName() << endl;
-
-        else
+        }
+        else{
             cout << "Winning player: Game is not finished!" << endl;
+        }    
     }
 }

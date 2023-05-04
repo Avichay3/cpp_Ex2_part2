@@ -1,8 +1,8 @@
 #include "doctest.h"
 #include <stdexcept>
-#include "sources/player.hpp"
-#include "sources/game.hpp"
-#include "sources/card.hpp"
+#include "sources/Player.hpp"
+#include "sources/Game.hpp"
+#include "sources/Card.hpp"
 using namespace std;
 using namespace ariel;
 

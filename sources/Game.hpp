@@ -25,11 +25,13 @@ namespace ariel{
             void printLastTurn() const {cout << lastTurnStats << endl; } //note The function is const and can be called on a const object.
 
             void playAll();
+            
+            void printStats();
 
             void printWiner() const; //note The function is const and can be called on a const object.
 
             void printLog() const {cout << log << endl;} //inline method
 
-            void printStats();
+            
     };
 }
