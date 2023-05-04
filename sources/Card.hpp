@@ -1,30 +1,39 @@
+
 #pragma once
+
 #include <iostream>
 #include <string>
 
-enum cardValue{ Ace = 1, Two , Three , Four , Five , Six , Seven , Eight , Nine , Ten , Jack , Queen , King };
-enum Shape{ Leafs = 1, Diamonds , Hearts , Clovers};
+/* Enumerations */
+
+//enum for value
+enum Value{Ace = 1, Two,Three ,Four ,Five ,Six ,Seven ,Eight ,Nine ,Ten ,Jack ,Queen ,King };
+
+//enum for suit
+enum Suit{Clubs = 1 ,Diamonds ,Hearts ,Spades};
+
+using namespace std;
 
 namespace ariel{
     class Card{
-    private:
-        cardValue val;
-        Shape shape;
+        private:
+            Value value;
+            Suit suit;
 
-    public:     
-        Card(cardValue val1 = Ace, Shape shape1 = Leafs); //if no arguments, deafault is Ace and Leaf
+        public:
+  
+            Card(Value value = Ace, Suit suit = Clubs); //constructor with default values
 
-        cardValue getCardValue() const{ //the const is on *this*
-            return val;
-        }
+            Value getValue() const { return value;} //note The function is const and can be called on a const object.
 
-        Shape getShape() const{ //same as before, the const is on *this* and that's why the const in this location
-            return shape;
-        }
+      
+            Suit getSuit() const {return suit;} //note The function is const and can be called on a const object.
 
+            bool operator==(const Card &rhs) const {return value == rhs.value;} //note The function is const and can be called on a const object.
 
+            bool operator<(const Card &rhs) const; //compare two cards
 
-
-
+            
+            string toString() const; //should represent card with value & suit
     };
 }
