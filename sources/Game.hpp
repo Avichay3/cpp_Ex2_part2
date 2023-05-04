@@ -1,39 +1,35 @@
+
 #pragma once
-
+#include "Card.hpp"
+#include "Player.hpp"
 #include <vector>
-#include "card.hpp"
-#include "player.hpp"
 
-namespace ariel
-{
-    class Game
-    {
-    private:
-        Player& p1; // reference to the first player
-        Player& p2; //reference to the second player
-        Player *winner; // reference to the winner of the game
-        string lastTurnStats; // the last turn stats, we gonna use it in printLastTurn function
+namespace ariel{
+    class Game{
+        private:
+            Player& p1;
+            Player& p2;
+            Player *winner;    //reference to the winner
+            string lastTurnStats;
+            string log;   //log of all turns
+            unsigned int turn;
+            unsigned int draws; //number of draws in the game
+            unsigned int p1Wins; // number of times player 1 wins
+            unsigned int p2Wins; // number of times player 2 wins
 
-        unsigned int turn; // current turn for player, it is unsigned because a turn can be between 0-26
-        unsigned int draws; // when both players play a card with the same value there is a draw.
-        // this private member will keep truck of the number of draws in the game
-        unsigned int player1Wins; // keep truck for the number of wins for player 1
-        unsigned int player2Wins;//keep truck the number of wins for player 2
+        public:
+            Game(Player& plr1, Player& plr2); //constructor for thee game, getting two players
 
-    public:
-        Game(Player& player1, Player& player2); //constructor with arguments the two players
+            void playTurn();
 
-        void playTurn();
+            void printLastTurn() const {cout << lastTurnStats << endl; } //note The function is const and can be called on a const object.
 
-        void printLastTurn() const { //prints the last turn stats
-            cout << lastTurnStats << endl;
-        }
+            void playAll();
 
-        void printWinner() const; // function to print the name of the winner
+            void printWiner() const; //note The function is const and can be called on a const object.
 
+            void printLog() const {cout << log << endl;} //inline method
 
-        void printStats(); // function that prints the statistics of the game
+            void printStats();
     };
 }
-
-    }
