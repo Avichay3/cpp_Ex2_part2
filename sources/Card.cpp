@@ -7,7 +7,7 @@ these functions are marked as const because they do not modify the state of the 
 */
 
 
-#include "card.hpp"
+#include "Card.hpp"
 
 #include <iostream>
 #include <string>
