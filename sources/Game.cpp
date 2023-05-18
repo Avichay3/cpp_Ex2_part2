@@ -22,7 +22,7 @@ namespace ariel{
 
         /*creating the cards*/
         for (int i = 1; i < 14; ++i){
-            cards.push_back(Card((Value)i, Clubs));
+            cards.push_back(Card((Value)i, Clubs)); // push_back() function insert elements to the vector from the end
         }
 
         for (int i = 1; i < 14; ++i){
@@ -38,9 +38,11 @@ namespace ariel{
         }
         
         
-        unsigned seed = (unsigned) time(NULL);
-        auto rng = default_random_engine(seed);
-        shuffle(cards.begin(), cards.end(), rng); //shuffle the element of cards
+        unsigned seed = (unsigned) time(NULL); //take the current time and cast it to int
+        auto rng = default_random_engine(seed); // creates random number using seed from previous
+        //shuffle the element of cards.  ensures that the cards are dealt in a random and unpredictable manner.
+        // It shuffles the card from the start to the end, this ensure that all the vector has been shuffled.
+        shuffle(cards.begin(), cards.end(), rng); 
 
         // Deal the cards
         while(!cards.empty()){
@@ -64,13 +66,14 @@ namespace ariel{
             throw invalid_argument("Cannot play a game with the same player twice!");
         }    
         if (p1.isInTheGame() && p2.isInTheGame()){
-            if (++this->turn > 26){ // increment turn and sheck if its over 25, if yes throw error
+            if (++this->turn > 26){ // increment turn and sheck if its over 25, if yes throw error (maximum turns is 26)
                 throw logic_error("Game cannot continue with more than 26 turns!");
             }
-            int drawsinthisturn = 0, OnTable = 2;
-            this->lastTurnStats = "";
-            Card p1Card = p1.getCard();
-            Card p2Card = p2.getCard();
+            int drawsinthisturn = 0; //keep track of the number of draws in the current turn
+            int OnTable = 2; //keep track of the number of cards on the table
+            this->lastTurnStats = ""; //will store the details and statistics of the current turn.
+            Card p1Card = p1.getCard(); //retrieves the top card
+            Card p2Card = p2.getCard(); //retrieves the top card
             p1.removeCard();
             p2.removeCard();
             this->lastTurnStats = "Turn " + to_string(this->turn) + ":\n" + p1.getName() + " played " + p1Card.toString() + " " + p2.getName() + " played " + p2Card.toString() + ". ";
